@@ -17,7 +17,7 @@ public class Player : PlayableObject //: MonoBehaviour
     
     public override void Move(Vector2 direction, Vector2 target)
     {
-        playerRB.linearVelocity = direction * Speed * Time.deltaTime; // set the velocity of the player based on the direction and speed
+        playerRB.linearVelocity = direction * Speed; // set the velocity of the player based on the direction and speed
 
         Vector3 playerScreenPos = cam.WorldToScreenPoint(transform.position); // get the screen position of the player
         target.x -= playerScreenPos.x; // subtract the screen position of the player from the target position
