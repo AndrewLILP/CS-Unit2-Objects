@@ -1,8 +1,10 @@
 using UnityEngine;
 
-public class Health //: MonoBehaviour
+public class Health //: NON-MonoBehaviour
 {
     // OOP health to be used for player and enemies
+    // health for playable objects is set here with constructors
+
 
 
     private float currentHealth;

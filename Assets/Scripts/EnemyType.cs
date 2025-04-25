@@ -1,5 +1,11 @@
 using UnityEngine;
 
+/// <summary>
+/// gives words to our options - shooter is option 3
+/// melee is option 1
+/// This enum is used to define different types of enemies in the game.
+/// </summary>
+
 public enum EnemyType 
 {
     Melee,
