@@ -36,4 +36,9 @@ public class Health //: NON-MonoBehaviour
         currentHealth -= value;
         // deduct health from the current health
     }
+
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
 }

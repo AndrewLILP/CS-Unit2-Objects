@@ -9,4 +9,9 @@ public class MachineGunEnenmy : ShooterEnemy // : MonoBehaviour via ShooterEnemy
 {
     public float shootingTime;
     public float shootingCoolDownTime;
+
+    public override void GetDamage(float damage)
+    {
+        base.GetDamage(damage);
+    }
 }
