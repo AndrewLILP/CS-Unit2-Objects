@@ -24,7 +24,7 @@ public class Player : PlayableObject //: MonoBehaviour
         target.y -= playerScreenPos.y; // subtract the screen position of the player from the target position
 
         float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg; // get the angle between the player and the target position
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle)); // rotate the player towards the target position
+        transform.rotation = Quaternion.Euler(0, 0, (angle)-90); // rotate the player towards the target position
 
         //var playerScreenPos = cam.WorldToScreenPoint(transform.position); // get the screen position of the player but more expensive
         // var sets the variable to type Vector3 here - same as RHS
