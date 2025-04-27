@@ -7,12 +7,22 @@ public class Player : PlayableObject //: MonoBehaviour
     [SerializeField] private float Speed;
     [SerializeField] private Camera cam;
 
+    [SerializeField] private float weaponDamage = 1;
+    [SerializeField] private float bulletSpeed = 10;
+    [SerializeField] private Bullet bulletPrefab; // this is the bullet prefab that will be instantiated when the player shoots
+    [SerializeField] private Transform firePoint; // this is the point where the bullet will be instantiated when the player shoots
+
     private Rigidbody2D playerRB; // player must have a rigidbody2D - filled dynamically in Start() method - errors will occur if not
 
     private void Start()
     {
         health = new Health(100f, 0.5f, 100f); // this is public so we can decrease health if it gets hit in gameplay
         playerRB = GetComponent<Rigidbody2D>(); // get the rigidbody2D component attached to the player
+
+        // set player weapon
+        weapon = new Weapon("PlayerWeapon", weaponDamage, bulletSpeed); // this is the weapon that the player will use
+
+
     }
     
     public override void Move(Vector2 direction, Vector2 target)
@@ -50,6 +60,7 @@ public class Player : PlayableObject //: MonoBehaviour
     {
         //throw new System.NotImplementedException(); - this works in a similar way to debug.log
         Debug.Log("Player Shooting a bullet ");
+        weapon.Shoot(bulletPrefab, firePoint, "Enemy", 5f); // shoot the weapon - this will instantiate the bullet prefab and set its damage and target tag
     }
 
     public override void Attack(float interval)

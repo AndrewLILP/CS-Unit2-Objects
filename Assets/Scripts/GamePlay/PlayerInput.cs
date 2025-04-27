@@ -21,9 +21,15 @@ public class PlayerInput : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         lookTarget = Input.mousePosition;
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0)) // GetMouseButton(0) is rapid fire - 0 is the left mouse button
         {
-            player.Shoot();
+            // Call the Shoot method on the player when the left mouse button is pressed
+            // This will shoot the weapon and instantiate a bullet
+            // The player class has a Shoot method that handles this logic
+            // The player class also has a weapon property that is used to shoot the bullet
+            // The player class also has a firePoint property that is used to instantiate the bullet
+            
+                player.Shoot();
         }
     }
 

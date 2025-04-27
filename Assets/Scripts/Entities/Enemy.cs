@@ -85,7 +85,12 @@ public class Enemy : PlayableObject //: not MonoBehaviour - player and enemy wil
 
     public override void GetDamage(float damage)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
+        health.DeductHealth(damage); // check health = 0 when damage is done - add to Health.cs
+        if (health.GetHealth() <= 0)
+        {
+            Die();
+        }
     }
 
     public override void Attack(float interval)
