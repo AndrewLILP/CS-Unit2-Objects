@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// GameManager is responsible for managing the game state and flow.
@@ -55,12 +57,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         isEnemySpawning = true;
+        StartCoroutine(EnemySpawner());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))    
+        if (Input.GetKeyDown(KeyCode.X))    //********** for testing - can delete / comment out
         {
             CreateEnemy();
         }
@@ -70,7 +73,18 @@ public class GameManager : MonoBehaviour
     {
         tempEnemy = Instantiate(enemyPrefab);
         tempEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
-        tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon;
+        tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon; // works for me as is - Enemy changed to Melee for a fix
         tempEnemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2, 0.25f);
+    }
+
+    IEnumerator EnemySpawner()
+    {
+        while (isEnemySpawning)
+        {
+            // run things before the wait
+            yield return new WaitForSeconds(1.0f / enemySpawnRate);
+            // run things after the wait
+            CreateEnemy();
+        }
     }
 }

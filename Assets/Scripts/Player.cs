@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 // Inheritance: Player inherits from PlayableObject
 
 public class Player : PlayableObject //: MonoBehaviour
@@ -12,6 +13,9 @@ public class Player : PlayableObject //: MonoBehaviour
     [SerializeField] private Bullet bulletPrefab; // this is the bullet prefab that will be instantiated when the player shoots
     [SerializeField] private Transform firePoint; // this is the point where the bullet will be instantiated when the player shoots
 
+    public Action<float> OnHealthUpdate; // actions go in code - UIManager subscribes to this
+
+
     private Rigidbody2D playerRB; // player must have a rigidbody2D - filled dynamically in Start() method - errors will occur if not
 
     private void Start()
@@ -21,6 +25,7 @@ public class Player : PlayableObject //: MonoBehaviour
 
         // set player weapon
         weapon = new Weapon("PlayerWeapon", weaponDamage, bulletSpeed); // this is the weapon that the player will use
+        OnHealthUpdate?.Invoke(health.GetHealth());
 
 
     }
@@ -54,6 +59,8 @@ public class Player : PlayableObject //: MonoBehaviour
     {
         // dont destroy the player, just set them to inactive
         Debug.Log("Player has died");
+        //gameObject.SetActive(false);
+        // wait 3 seconds and set active true, games over screen etc
     }
 
     public override void Shoot()
@@ -72,7 +79,13 @@ public class Player : PlayableObject //: MonoBehaviour
 
     public override void GetDamage(float damage)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Player damaged" +  damage);
+        health.DeductHealth(damage);
+
+        OnHealthUpdate?.Invoke(health.GetHealth()); // Broadcast Health action to subscribers eg UIManager
+
+        if (health.GetHealth() <0)
+            Die();
     }
 
 }

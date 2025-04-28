@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.Events;
+using System.Collections.Generic;
+using System.Collections;
 
 /// <summary>
 /// ScoreManager is responsible for managing the player's score.
@@ -6,15 +9,30 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private int seconds;
+    private int score;
+
+
+    public UnityEvent OnScoreUpdate;
+
+    public string timer
     {
-        
+        get
+        {
+            return (Mathf.Round((float)seconds / 60.0f) + "mins and" + seconds % 60 + "seconds");
+        }
+        private set { }
     }
 
-    // Update is called once per frame
-    void Update()
+    public int GetScore()
     {
-        
+        return score;
     }
+
+    public void IncrementScore()
+    {
+        score++;
+        OnScoreUpdate?.Invoke(); // another way to write a null check - avoids null crash
+    }
+
 }

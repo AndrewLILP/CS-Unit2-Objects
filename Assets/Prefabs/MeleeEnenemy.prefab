@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3710130162800602755}
   - component: {fileID: -6738072260377968993}
   - component: {fileID: 4538839183993732097}
+  - component: {fileID: 8347595957200491600}
   m_Layer: 0
   m_Name: MeleeEnenemy
   m_TagString: Enemy
@@ -30,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -131,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   attackRange: 1
+  attackTime: 1
 --- !u!61 &4538839183993732097
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -177,3 +179,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &8347595957200491600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2448341184461682184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93acf4bee99b584438460caf10ad16cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
