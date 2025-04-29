@@ -9,6 +9,7 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
     [Header("Game Entities")]
+    [SerializeField] private Player player;
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private Transform[] spawnPoints;
 
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float enemySpawnRate;
 
     public ScoreManager scoreManager;
+    public PickupManager pickupManager;
 
     private GameObject tempEnemy;
     private bool isEnemySpawning;
@@ -48,7 +50,7 @@ public class GameManager : MonoBehaviour
     {
         // Set the singleton instance
         SetSingleton();
-        
+
     }
     // end of singleton
 
@@ -67,6 +69,16 @@ public class GameManager : MonoBehaviour
         {
             CreateEnemy();
         }
+    }
+
+    public Player GetPlayer()
+    {
+        return player;
+    }
+
+    public void NotifyDeath(Enemy enemy)
+    {
+        pickupManager.SpawnPickup(enemy.transform.position);
     }
 
     void CreateEnemy()

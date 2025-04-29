@@ -15,8 +15,8 @@ public abstract class PlayableObject : MonoBehaviour , IDamagable
     public virtual void Move(Vector2 direction) { } // scope { } as it is in abstract class
 
     // all playableObjects MUST use above Move and CAN optionally use Moves below 
-    public virtual void Move(float speed) { }
-    public abstract void Shoot();
+    public virtual void Move(float speed) { } // virtuals can be over written
+    public abstract void Shoot(); // abstract must be used
 
     public abstract void Attack(float interval);
 

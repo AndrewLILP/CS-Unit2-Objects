@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        UpdateHealth(player.health.GetHealth());
         player.OnHealthUpdate += UpdateHealth; // += subscribes
     }
 

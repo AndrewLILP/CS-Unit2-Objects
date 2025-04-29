@@ -6,6 +6,6 @@ public abstract class Pickup : MonoBehaviour
 {
     public virtual void OnPicked()
     {
-        Destroy(gameObject);
+        Destroy(gameObject); // object pooling in the future
     }
 }

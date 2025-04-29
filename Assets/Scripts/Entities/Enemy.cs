@@ -73,6 +73,7 @@ public class Enemy : PlayableObject //: not MonoBehaviour - player and enemy wil
     public override void Die()
     {
         Debug.Log("Enemy died: ");
+        GameManager.GetInstance().NotifyDeath(this);
         Destroy(gameObject);
         //base.Die(); base doesnt work any more
         // more stuff can be added to the stuff
