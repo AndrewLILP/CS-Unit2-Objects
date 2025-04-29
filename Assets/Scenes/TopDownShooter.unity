@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 552838715}
   - component: {fileID: 552838717}
   - component: {fileID: 552838718}
+  - component: {fileID: 552838719}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -150,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c47f3ad2d779847a87fb7b659f3bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   enemyPrefab: {fileID: 2448341184461682184, guid: 8d60a69741655b0438b99b6e11fa586c, type: 3}
   spawnPoints:
   - {fileID: 796307866}
@@ -157,6 +159,7 @@ MonoBehaviour:
   - {fileID: 985000324}
   enemySpawnRate: 2
   scoreManager: {fileID: 552838717}
+  pickupManager: {fileID: 552838719}
 --- !u!4 &552838716
 Transform:
   m_ObjectHideFlags: 0
@@ -217,6 +220,22 @@ MonoBehaviour:
   txtHealth: {fileID: 799159771}
   txtScore: {fileID: 2050469630}
   player: {fileID: 1539626794}
+--- !u!114 &552838719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552838714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 951f2855859ad8f47b148f4c36073721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickups:
+  - pickup: {fileID: -4519615477473441391, guid: 7c3307422e085e24da1fc9ec04a35cac, type: 3}
+    spawnWeight: 1
+  pickupProbability: 1
 --- !u!1 &796307865
 GameObject:
   m_ObjectHideFlags: 0
