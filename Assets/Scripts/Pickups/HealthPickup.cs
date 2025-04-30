@@ -9,6 +9,8 @@ public class HealthPickup : Pickup, IDamagable
         // increase health
         var player = GameManager.GetInstance().GetPlayer();
         player.health.AddHealth(healthToAdd);
+        GameManager.GetInstance().uiManager.UpdateHealth(player.health.GetHealth());
+
     }
 
     public void GetDamage(float damage)
@@ -17,12 +19,6 @@ public class HealthPickup : Pickup, IDamagable
         OnPicked();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            OnPicked();
-        }
-    }
+  
 
 }

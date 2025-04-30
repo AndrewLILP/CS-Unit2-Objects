@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
+using System;
+//using UnityEngine.AI;
+
 
 /// <summary>
 /// GameManager is responsible for managing the game state and flow.
@@ -16,11 +20,16 @@ public class GameManager : MonoBehaviour
     [Header("Game Variables")]
     [SerializeField] private float enemySpawnRate;
 
+    public Action OnGameStart;
+    public Action OnGameOver;
+
     public ScoreManager scoreManager;
     public PickupManager pickupManager;
+    public UIManager uiManager;
 
     private GameObject tempEnemy;
     private bool isEnemySpawning;
+    private bool isPlaying; //*********************************************
 
     private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
 
@@ -55,12 +64,6 @@ public class GameManager : MonoBehaviour
     // end of singleton
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        isEnemySpawning = true;
-        StartCoroutine(EnemySpawner());
-    }
 
     // Update is called once per frame
     void Update()
@@ -74,7 +77,58 @@ public class GameManager : MonoBehaviour
     public Player GetPlayer()
     {
         return player;
+
     }
+
+    public bool isPlayging() //isPlaying was causing problems ***************
+    {
+        return isPlaying;
+    }
+
+    public void StartGame()
+    {
+        player.gameObject.SetActive(true);
+        player.OnDeath += StopGame; // += subscribing
+        isPlaying = true;
+        OnGameStart?.Invoke();
+        StartCoroutine(GameStarter());
+    }
+
+    IEnumerator GameStarter()
+    {
+        yield return new WaitForSeconds(2.0f);
+        isEnemySpawning = true;
+        StartCoroutine(EnemySpawner());
+    }
+
+    public void StopGame()
+    {
+        isEnemySpawning = false;
+        scoreManager.SetHighScore();
+        StartCoroutine(GameStopper());
+    }
+
+    IEnumerator GameStopper()
+    {
+        isEnemySpawning = false;
+        yield return new WaitForSeconds(2.0f);
+        isPlaying = false;
+
+        foreach (Enemy item in FindObjectsOfType(typeof(Enemy)))
+        {
+            Destroy(item.gameObject);
+        }
+
+        foreach (Pickup item in FindObjectsOfType(typeof(Enemy)))
+        {
+            Destroy(item.gameObject);
+        }
+
+        OnGameOver?.Invoke();
+    
+    }
+
+
 
     public void NotifyDeath(Enemy enemy)
     {
@@ -84,7 +138,7 @@ public class GameManager : MonoBehaviour
     void CreateEnemy()
     {
         tempEnemy = Instantiate(enemyPrefab);
-        tempEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+        tempEnemy.transform.position = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
         tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon; // works for me as is - Enemy changed to Melee for a fix
         tempEnemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2, 0.25f);
     }

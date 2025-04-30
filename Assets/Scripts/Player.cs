@@ -15,6 +15,8 @@ public class Player : PlayableObject //: MonoBehaviour
 
     public Action<float> OnHealthUpdate; // actions go in code - UIManager subscribes to this
 
+    public Action OnDeath;
+
 
     private Rigidbody2D playerRB; // player must have a rigidbody2D - filled dynamically in Start() method - errors will occur if not
 
@@ -27,9 +29,13 @@ public class Player : PlayableObject //: MonoBehaviour
         weapon = new Weapon("PlayerWeapon", weaponDamage, bulletSpeed); // this is the weapon that the player will use
         OnHealthUpdate?.Invoke(health.GetHealth());
 
-
     }
-    
+
+    private void Update()
+    {
+        health.RegenHealth();
+    }
+
     public override void Move(Vector2 direction, Vector2 target)
     {
         playerRB.linearVelocity = direction * Speed; // set the velocity of the player based on the direction and speed
@@ -59,7 +65,8 @@ public class Player : PlayableObject //: MonoBehaviour
     {
         // dont destroy the player, just set them to inactive
         Debug.Log("Player has died");
-        //gameObject.SetActive(false);
+        OnDeath?.Invoke();
+        gameObject.SetActive(false);
         // wait 3 seconds and set active true, games over screen etc
     }
 
@@ -68,6 +75,8 @@ public class Player : PlayableObject //: MonoBehaviour
         //throw new System.NotImplementedException(); - this works in a similar way to debug.log
         Debug.Log("Player Shooting a bullet ");
         weapon.Shoot(bulletPrefab, firePoint, "Enemy", 5f); // shoot the weapon - this will instantiate the bullet prefab and set its damage and target tag
+        // shooting like a boomerang using a lerp might be cool - see lerpExample - axe in God of War
+
     }
 
     public override void Attack(float interval)

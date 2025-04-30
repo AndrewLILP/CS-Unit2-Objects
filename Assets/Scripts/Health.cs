@@ -24,6 +24,11 @@ public class Health //: NON-MonoBehaviour
         // allows other objects to use Health class without needing to set values - default values eg 0
     }
 
+    public void RegenHealth()
+    {
+        AddHealth(healthRegenRate * Time.deltaTime);
+    }
+
     public void AddHealth(float value)
     {
         currentHealth += value;

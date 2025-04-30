@@ -11,9 +11,33 @@ public class ScoreManager : MonoBehaviour
 {
     private int seconds;
     private int score;
+    private int highScore;
 
 
     public UnityEvent OnScoreUpdate;
+    public UnityEvent OnHighScoreUpdated;
+
+    private void Start()
+    {
+        highScore = PlayerPrefs.GetInt("HighScore");
+        OnHighScoreUpdated?.Invoke();
+        GameManager.GetInstance().OnGameStart += OnGameStart;
+    }
+
+    private void OnGameStart()
+    {
+        score = 0;
+    }
+
+    public int GetHighScore()
+    {
+        return highScore;
+    }
+
+    public void SetHighScore()
+    {
+        PlayerPrefs.SetInt("HighScore", highScore);
+    }
 
     public string timer
     {
@@ -33,6 +57,12 @@ public class ScoreManager : MonoBehaviour
     {
         score++;
         OnScoreUpdate?.Invoke(); // another way to write a null check - avoids null crash
+
+        if (score > highScore)
+        {
+            highScore = score;
+            OnHighScoreUpdated?.Invoke();
+        }
     }
 
 }
