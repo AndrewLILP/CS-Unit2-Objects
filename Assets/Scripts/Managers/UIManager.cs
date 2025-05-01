@@ -1,8 +1,9 @@
 using UnityEngine;
-
 using System.Collections.Generic;
 using System.Collections;
 using TMPro;
+
+// UIManager.cs
 
 
 
@@ -22,6 +23,10 @@ public class UIManager : MonoBehaviour
         GameManager.GetInstance().OnGameStart += GameStarted;
         GameManager.GetInstance().OnGameOver += GameOver;
         }
+
+    // ********************* Claude fix
+
+
 
     public void GameStarted()
     {

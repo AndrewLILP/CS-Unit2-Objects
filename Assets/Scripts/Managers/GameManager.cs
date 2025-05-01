@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using System;
-//using UnityEngine.AI;
+
+// GameManager.cs
+
 
 
 /// <summary>
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     private GameObject tempEnemy;
     private bool isEnemySpawning;
-    private bool isPlaying; //*********************************************
+    private bool isPlaying;                                     //   0:32
 
     private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
 
@@ -64,13 +66,17 @@ public class GameManager : MonoBehaviour
     // end of singleton
 
 
-
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))    //********** for testing - can delete / comment out
         {
             CreateEnemy();
+        }
+        // CLAUDE FIX
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            StartGame();
         }
     }
 
@@ -80,7 +86,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public bool isPlayging() //isPlaying was causing problems ***************
+    public bool IsPlaying()
     {
         return isPlaying;
     }
@@ -88,7 +94,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         player.gameObject.SetActive(true);
-        player.OnDeath += StopGame; // += subscribing
+        player.OnDeath += StopGame; // += subscribing to the action
         isPlaying = true;
         OnGameStart?.Invoke();
         StartCoroutine(GameStarter());

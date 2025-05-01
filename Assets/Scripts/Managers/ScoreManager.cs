@@ -11,7 +11,7 @@ public class ScoreManager : MonoBehaviour
 {
     private int seconds;
     private int score;
-    private int highScore;
+    private int highScore = 0;
 
 
     public UnityEvent OnScoreUpdate;

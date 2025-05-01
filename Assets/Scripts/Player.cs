@@ -5,7 +5,7 @@ using System;
 public class Player : PlayableObject //: MonoBehaviour
 {
     [SerializeField] private string nickName;
-    [SerializeField] private float Speed;
+    [SerializeField] private float speed;
     [SerializeField] private Camera cam;
 
     [SerializeField] private float weaponDamage = 1;
@@ -38,7 +38,7 @@ public class Player : PlayableObject //: MonoBehaviour
 
     public override void Move(Vector2 direction, Vector2 target)
     {
-        playerRB.linearVelocity = direction * Speed; // set the velocity of the player based on the direction and speed
+        playerRB.linearVelocity = direction * speed; // set the velocity of the player based on the direction and speed
 
         Vector3 playerScreenPos = cam.WorldToScreenPoint(transform.position); // get the screen position of the player
         target.x -= playerScreenPos.x; // subtract the screen position of the player from the target position
@@ -47,18 +47,7 @@ public class Player : PlayableObject //: MonoBehaviour
         float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg; // get the angle between the player and the target position
         transform.rotation = Quaternion.Euler(0, 0, (angle)-90); // rotate the player towards the target position
 
-        //var playerScreenPos = cam.WorldToScreenPoint(transform.position); // get the screen position of the player but more expensive
-        // var sets the variable to type Vector3 here - same as RHS
-
-        // Move the player in the specified direction
-        // This method would be called in the Update method to move the player based on input
-        // For example, you could use Input.GetAxis("Horizontal") and Input.GetAxis("Vertical") to get the input direction
-        // and then call this method with that direction.
-
-        //base.Move();
-        // Call the base class Move method to handle the movement logic
-        // This allows you to reuse the base class functionality while adding player-specific behavior
-        // Debug.Log("Moving player in direction: ");
+        
     }
 
     public override void Die()
@@ -98,3 +87,15 @@ public class Player : PlayableObject //: MonoBehaviour
     }
 
 }
+//var playerScreenPos = cam.WorldToScreenPoint(transform.position); // get the screen position of the player but more expensive
+// var sets the variable to type Vector3 here - same as RHS
+
+// Move the player in the specified direction
+// This method would be called in the Update method to move the player based on input
+// For example, you could use Input.GetAxis("Horizontal") and Input.GetAxis("Vertical") to get the input direction
+// and then call this method with that direction.
+
+//base.Move();
+// Call the base class Move method to handle the movement logic
+// This allows you to reuse the base class functionality while adding player-specific behavior
+// Debug.Log("Moving player in direction: ");
