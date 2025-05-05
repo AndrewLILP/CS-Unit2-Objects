@@ -150,7 +150,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c47f3ad2d779847a87fb7b659f3bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
+  enemyPrefab:
+  - {fileID: 2448341184461682184, guid: 460344a24dc8ccf48bb8f80b6e5b9e12, type: 3}
+  - {fileID: 2448341184461682184, guid: 460344a24dc8ccf48bb8f80b6e5b9e12, type: 3}
+=======
   enemyPrefab: {fileID: 2448341184461682184, guid: 8d60a69741655b0438b99b6e11fa586c, type: 3}
+>>>>>>> parent of 83bfb70 (Exploder working-ish)
   spawnPoints:
   - {fileID: 796307866}
   - {fileID: 2041070749}
