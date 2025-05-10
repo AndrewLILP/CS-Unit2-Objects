@@ -221,7 +221,7 @@ MonoBehaviour:
   txtScore: {fileID: 2050469630}
 <<<<<<< HEAD
   txtHighScore: {fileID: 1906641478}
-  player: {fileID: 1539626794}
+  player: {fileID: 0}
   menuCanvas: {fileID: 1781459372}
 =======
   player: {fileID: 1539626794}
