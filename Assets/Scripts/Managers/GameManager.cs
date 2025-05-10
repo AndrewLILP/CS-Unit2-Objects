@@ -1,12 +1,15 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using UnityEngine.Events;
 using System;
 
 // GameManager.cs
 
 
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
 
 /// <summary>
 /// GameManager is responsible for managing the game state and flow.
@@ -22,16 +25,15 @@ public class GameManager : MonoBehaviour
     [Header("Game Variables")]
     [SerializeField] private float enemySpawnRate;
 
-    public Action OnGameStart;
-    public Action OnGameOver;
-
     public ScoreManager scoreManager;
     public PickupManager pickupManager;
-    public UIManager uiManager;
 
     private GameObject tempEnemy;
     private bool isEnemySpawning;
+<<<<<<< HEAD
     private bool isPlaying;                                     //   0:32
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
 
     private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
 
@@ -66,6 +68,16 @@ public class GameManager : MonoBehaviour
     // end of singleton
 
 
+<<<<<<< HEAD
+=======
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        isEnemySpawning = true;
+        StartCoroutine(EnemySpawner());
+    }
+
+>>>>>>> parent of c43466d (lesson009-April24)
     // Update is called once per frame
     void Update()
     {
@@ -83,9 +95,9 @@ public class GameManager : MonoBehaviour
     public Player GetPlayer()
     {
         return player;
-
     }
 
+<<<<<<< HEAD
     public bool IsPlaying()
     {
         return isPlaying;
@@ -136,6 +148,8 @@ public class GameManager : MonoBehaviour
 
 
 
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
     public void NotifyDeath(Enemy enemy)
     {
         pickupManager.SpawnPickup(enemy.transform.position);
@@ -144,7 +158,7 @@ public class GameManager : MonoBehaviour
     void CreateEnemy()
     {
         tempEnemy = Instantiate(enemyPrefab);
-        tempEnemy.transform.position = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
+        tempEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
         tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon; // works for me as is - Enemy changed to Melee for a fix
         tempEnemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2, 0.25f);
     }
