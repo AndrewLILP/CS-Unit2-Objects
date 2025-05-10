@@ -13,7 +13,11 @@ GameObject:
   - component: {fileID: -4519615477473441391}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   - component: {fileID: 2167696083721278749}
+=======
+  - component: {fileID: -2792958234930736645}
+>>>>>>> parent of c43466d (lesson009-April24)
 =======
   - component: {fileID: -2792958234930736645}
 >>>>>>> parent of c43466d (lesson009-April24)
@@ -158,6 +162,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!114 &-4519615477473441391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +203,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
 =======
 >>>>>>> parent of c43466d (lesson009-April24)
 =======

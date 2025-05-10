@@ -13,7 +13,10 @@ public class ScoreManager : MonoBehaviour
     private int score;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     private int highScore = 0;
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
 =======
 >>>>>>> parent of c43466d (lesson009-April24)
 =======
