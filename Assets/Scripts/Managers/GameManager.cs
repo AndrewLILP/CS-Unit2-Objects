@@ -2,12 +2,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 <<<<<<< HEAD
+<<<<<<< HEAD
 using UnityEngine.Events;
 using System;
 
 // GameManager.cs
 
 
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
 =======
 >>>>>>> parent of c43466d (lesson009-April24)
 
@@ -31,7 +34,10 @@ public class GameManager : MonoBehaviour
     private GameObject tempEnemy;
     private bool isEnemySpawning;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private bool isPlaying;                                     //   0:32
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
 =======
 >>>>>>> parent of c43466d (lesson009-April24)
 
@@ -69,7 +75,10 @@ public class GameManager : MonoBehaviour
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -97,6 +106,7 @@ public class GameManager : MonoBehaviour
         return player;
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public bool IsPlaying()
     {
@@ -148,6 +158,8 @@ public class GameManager : MonoBehaviour
 
 
 
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
 =======
 >>>>>>> parent of c43466d (lesson009-April24)
     public void NotifyDeath(Enemy enemy)

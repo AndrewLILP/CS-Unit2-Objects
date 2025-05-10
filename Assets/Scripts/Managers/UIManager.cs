@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         scoreManager = GameManager.GetInstance().scoreManager;
         GameManager.GetInstance().OnGameStart += GameStarted;
         GameManager.GetInstance().OnGameOver += GameOver;
@@ -27,6 +28,8 @@ public class UIManager : MonoBehaviour
 
     public void GameStarted()
     {
+=======
+>>>>>>> parent of c43466d (lesson009-April24)
 =======
 >>>>>>> parent of c43466d (lesson009-April24)
         UpdateHealth(player.health.GetHealth());
