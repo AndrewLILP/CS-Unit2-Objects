@@ -14,7 +14,7 @@ public class Player : PlayableObject //: MonoBehaviour
     [SerializeField] private Transform firePoint; // this is the point where the bullet will be instantiated when the player shoots
 
     public Action<float> OnHealthUpdate; // actions go in code - UIManager subscribes to this
-
+    public Action OnDeath; // action for when the player dies - UIManager subscribes to this
 
     private Rigidbody2D playerRB; // player must have a rigidbody2D - filled dynamically in Start() method - errors will occur if not
 
@@ -48,6 +48,7 @@ public class Player : PlayableObject //: MonoBehaviour
     {
         // dont destroy the player, just set them to inactive
         Debug.Log("Player has died");
+        OnDeath?.Invoke(); // Broadcast Death action to subscribers eg UIManager
         //gameObject.SetActive(false);
         // wait 3 seconds and set active true, games over screen etc
     }

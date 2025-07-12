@@ -11,16 +11,9 @@ public class ScoreManager : MonoBehaviour
 {
     private int seconds;
     private int score;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     private int highScore = 0;
-=======
->>>>>>> parent of c43466d (lesson009-April24)
-=======
->>>>>>> parent of c43466d (lesson009-April24)
-=======
->>>>>>> parent of c43466d (lesson009-April24)
+
 
 
     public UnityEvent OnScoreUpdate;
@@ -34,15 +27,46 @@ public class ScoreManager : MonoBehaviour
         private set { }
     }
 
+    // Start method to load high score from PlayerPrefs
+    private void Start()
+    {
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+    }
+
     public int GetScore()
     {
         return score;
     }
 
+    public int GetHighScore()
+    {
+        return highScore;
+    }
+
+
     public void IncrementScore()
     {
         score++;
         OnScoreUpdate?.Invoke(); // another way to write a null check - avoids null crash
+    }
+
+    // Add missing SetHighScore method
+    public void SetHighScore()
+    {
+        if (score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.Save();
+            Debug.Log("New High Score: " + highScore);
+        }
+    }
+
+    // Reset score for new game
+    public void ResetScore()
+    {
+        score = 0;
+        OnScoreUpdate?.Invoke();
     }
 
 }

@@ -1,21 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 using UnityEngine.Events;
 using System;
 
 // GameManager.cs
-
-
-=======
->>>>>>> parent of c43466d (lesson009-April24)
-=======
->>>>>>> parent of c43466d (lesson009-April24)
-=======
->>>>>>> parent of c43466d (lesson009-April24)
 
 /// <summary>
 /// GameManager is responsible for managing the game state and flow.
@@ -34,18 +23,17 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     public PickupManager pickupManager;
 
+    /// <summary>
+    /// Possible fixes
+    /// </summary>
+    public UnityEvent OnGameStart;
+    public UnityEvent OnGameOver;
+
     private GameObject tempEnemy;
     private bool isEnemySpawning;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     private bool isPlaying;                                     //   0:32
-=======
->>>>>>> parent of c43466d (lesson009-April24)
-=======
->>>>>>> parent of c43466d (lesson009-April24)
-=======
->>>>>>> parent of c43466d (lesson009-April24)
+
 
     private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
 
@@ -80,14 +68,7 @@ public class GameManager : MonoBehaviour
     // end of singleton
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of c43466d (lesson009-April24)
-=======
->>>>>>> parent of c43466d (lesson009-April24)
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -95,7 +76,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(EnemySpawner());
     }
 
->>>>>>> parent of c43466d (lesson009-April24)
+
     // Update is called once per frame
     void Update()
     {
@@ -115,9 +96,6 @@ public class GameManager : MonoBehaviour
         return player;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     public bool IsPlaying()
     {
         return isPlaying;
@@ -152,28 +130,21 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         isPlaying = false;
 
-        foreach (Enemy item in FindObjectsOfType(typeof(Enemy)))
+        // Fix deprecated FindObjectsOfType calls
+        foreach (Enemy item in FindObjectsByType<Enemy>(FindObjectsSortMode.None))
         {
             Destroy(item.gameObject);
         }
 
-        foreach (Pickup item in FindObjectsOfType(typeof(Enemy)))
+        foreach (Pickup item in FindObjectsByType<Pickup>(FindObjectsSortMode.None))
         {
             Destroy(item.gameObject);
         }
 
-        OnGameOver?.Invoke();
-    
     }
 
 
 
-=======
->>>>>>> parent of c43466d (lesson009-April24)
-=======
->>>>>>> parent of c43466d (lesson009-April24)
-=======
->>>>>>> parent of c43466d (lesson009-April24)
     public void NotifyDeath(Enemy enemy)
     {
         pickupManager.SpawnPickup(enemy.transform.position);
@@ -182,7 +153,7 @@ public class GameManager : MonoBehaviour
     void CreateEnemy()
     {
         tempEnemy = Instantiate(enemyPrefab);
-        tempEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+        tempEnemy.transform.position = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
         tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon; // works for me as is - Enemy changed to Melee for a fix
         tempEnemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2, 0.25f);
     }
