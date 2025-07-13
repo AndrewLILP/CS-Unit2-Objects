@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
     private Weapon exploderWeapon = new Weapon("Exploder", 2, 8); 
+    private Weapon machineGunWeapon = new Weapon("Machine Gun", 1, 10);
 
     /// <summary>
     /// Singleton
@@ -187,6 +188,15 @@ public class GameManager : MonoBehaviour
         {
             // ExploderEnemy doesn't need weapon setup
             enemyComponent.SetEnemyType(EnemyType.Exploder);
+        }
+
+
+        else if (enemy.GetComponent<MachineGunEnenmy>() != null)
+        {
+            // MachineGunEnenmy setup
+            enemyComponent.weapon = machineGunWeapon; 
+            enemy.GetComponent<MachineGunEnenmy>().SetMachineGunEnenmy(1f, 15f); 
+            enemyComponent.SetEnemyType(EnemyType.MachineGun);
         }
         // Add more enemy types here as needed
     }
