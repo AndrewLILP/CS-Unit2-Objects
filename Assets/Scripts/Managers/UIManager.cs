@@ -15,40 +15,53 @@ public class UIManager : MonoBehaviour
     // Add missing scoreManager field
     private ScoreManager scoreManager;
 
+
     private void Start()
     {
-
+        
         scoreManager = GameManager.GetInstance().scoreManager;
+
         GameManager.GetInstance().OnGameStart.AddListener(GameStarted);
         GameManager.GetInstance().OnGameOver.AddListener(GameOver);
-        // cGPT scoreManager = FindObjectOfType<ScoreManager>();
+        
         // Subscribe to score updates
-        scoreManager.OnScoreUpdate.AddListener(UpdateScore);
-        // cGPT scoreManager = FindObjectOfType<ScoreManager>();
+        
+        if (scoreManager != null)
+        {
+            scoreManager.OnScoreUpdate.AddListener(UpdateScore);
+        }
+
     }
 
 
 
     public void GameStarted()
     {
+        Debug.Log("GameStarted called!");
 
+        if (player == null)
+        {
+            Debug.LogError("Player is null in GameStarted!");
+            return;
+        }
+
+        Debug.Log("Player found, current health: " + player.health.GetHealth());
         UpdateHealth(player.health.GetHealth());
         player.OnHealthUpdate += UpdateHealth; // += subscribes
+        Debug.Log("Subscribed to health updates");
     }
 
-    // Add the missing GameOver method
-    public void GameOver()
-    {
-        Debug.Log("Game Over!");
-        // Add any game over UI logic here
-    }
-
-
+    
     private void OnDisable()
     {
         //unsubscribe to action
         if (player != null) 
             player.OnHealthUpdate -= UpdateHealth;
+
+        if (scoreManager != null)
+        {
+            scoreManager.OnScoreUpdate.RemoveListener(UpdateScore);
+        }
 
 
         // Unsubscribe from GameManager events
@@ -66,11 +79,20 @@ public class UIManager : MonoBehaviour
 
     public void UpdateHealth(float currentHealth)
     {
+        Debug.Log("UpdateHealth called with: " + currentHealth);
         txtHealth.SetText(currentHealth.ToString());
     }
 
     public void UpdateScore()
     {
         txtScore.SetText(GameManager.GetInstance().scoreManager.GetScore().ToString());
+    }
+
+    public void GameOver()
+    {
+        if (player != null)
+        {
+            player.OnHealthUpdate -= UpdateHealth;
+        }
     }
 }

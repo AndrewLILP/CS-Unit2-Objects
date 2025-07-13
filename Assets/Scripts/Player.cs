@@ -25,6 +25,8 @@ public class Player : PlayableObject //: MonoBehaviour
 
         // set player weapon
         weapon = new Weapon("PlayerWeapon", weaponDamage, bulletSpeed); // this is the weapon that the player will use
+
+        Debug.Log("Player initialized with health: " + health.GetHealth());
         OnHealthUpdate?.Invoke(health.GetHealth());
 
 
@@ -49,7 +51,7 @@ public class Player : PlayableObject //: MonoBehaviour
         // dont destroy the player, just set them to inactive
         Debug.Log("Player has died");
         OnDeath?.Invoke(); // Broadcast Death action to subscribers eg UIManager
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
         // wait 3 seconds and set active true, games over screen etc
     }
 
@@ -72,9 +74,14 @@ public class Player : PlayableObject //: MonoBehaviour
         Debug.Log("Player damaged" +  damage);
         health.DeductHealth(damage);
 
+        Debug.Log("Current health after damage: " + health.GetHealth());
+        Debug.Log("About to call OnHealthUpdate");
+
         OnHealthUpdate?.Invoke(health.GetHealth()); // Broadcast Health action to subscribers eg UIManager
 
-        if (health.GetHealth() <0)
+        Debug.Log("OnHealthUpdate called successfully");
+
+        if (health.GetHealth() <= 0)
             Die();
     }
 

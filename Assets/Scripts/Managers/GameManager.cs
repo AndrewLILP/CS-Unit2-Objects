@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
     {
         isEnemySpawning = true;
         StartCoroutine(EnemySpawner());
+        StartGame();
     }
 
 
@@ -85,11 +86,9 @@ public class GameManager : MonoBehaviour
         {
             CreateEnemy();
         }
-        // CLAUDE FIX
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            StartGame();
-        }
+        
+            
+        
     }
 
     public Player GetPlayer()

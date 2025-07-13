@@ -31,6 +31,7 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         highScore = PlayerPrefs.GetInt("HighScore", 0);
+
     }
 
     public int GetScore()

@@ -32,7 +32,8 @@ public class ExploderEnemy : Enemy
     }
     public override void GetDamage(float damage)
     {
-        base.GetDamage(damage);
+        //base.GetDamage(damage);
+        Explode();
     }
 
     private void Explode()
