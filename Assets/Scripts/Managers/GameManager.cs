@@ -198,6 +198,13 @@ public class GameManager : MonoBehaviour
             enemy.GetComponent<MachineGunEnenmy>().SetMachineGunEnenmy(1f, 15f); 
             enemyComponent.SetEnemyType(EnemyType.MachineGun);
         }
+
+        else if (enemy.GetComponent<SniperEnemy>() != null)
+        {
+            enemyComponent.weapon = new Weapon("Sniper Rifle", 3, 20); // High damage, fast bullets
+            enemy.GetComponent<SniperEnemy>().SetSniperEnemy(0.33f, 1f, 3f, 1f);
+            enemyComponent.SetEnemyType(EnemyType.Sniper);
+        }
         // Add more enemy types here as needed
     }
 }

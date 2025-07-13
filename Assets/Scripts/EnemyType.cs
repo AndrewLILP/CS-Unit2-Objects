@@ -11,7 +11,8 @@ public enum EnemyType
     Melee,
     Exploder,
     Shooter,
-    MachineGun
+    MachineGun,
+    Sniper
 }
 
 // This enum is used to define different types of enemies in the game.
