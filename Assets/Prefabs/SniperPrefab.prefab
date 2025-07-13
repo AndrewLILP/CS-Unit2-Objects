@@ -168,16 +168,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   speed: 1
+  bulletPrefab: {fileID: 4142294224700888688, guid: 16e4ffabb29efd444ab6086e49e47859, type: 3}
+  firePoint: {fileID: 6910950082835206665}
+  fireRate: 0.33
+  shootingRange: 12
+  bulletSpeed: 20
+  bulletDamage: 1
+  targetTag: Player
   preferredDistance: 12
   minimumDistance: 8
   maxDistance: 15
-  BulletPrefab: {fileID: 4142294224700888688, guid: 16e4ffabb29efd444ab6086e49e47859, type: 3}
-  firePoint: {fileID: 6910950082835206665}
-  fireRate: 0.33
   inaccuracyAngle: 1
-  shootingRange: 12
-  sniperDamage: 3
-  bulletSpeed: 20
+  aimingTime: 1.5
+  requiresLineOfSight: 1
 --- !u!50 &1536256377934792766
 Rigidbody2D:
   serializedVersion: 5

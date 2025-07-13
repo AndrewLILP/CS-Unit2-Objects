@@ -171,39 +171,51 @@ public class GameManager : MonoBehaviour
             CreateEnemy();
         }
     }
-
     private void ConfigureEnemy(GameObject enemy)
     {
         Enemy enemyComponent = enemy.GetComponent<Enemy>();
         if (enemyComponent == null) return;
 
-        // Configure based on what enemy component is attached
+        // Configure Melee Enemies
         if (enemy.GetComponent<MeleeEnemy>() != null)
         {
             enemyComponent.weapon = meleeWeapon;
             enemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2f, 0.25f);
             enemyComponent.SetEnemyType(EnemyType.Melee);
         }
+        // Configure Machine Gun Enemies
+        else if (enemy.GetComponent<MachineGunEnemy>() != null) // Fixed class name
+        {
+            var machineGun = enemy.GetComponent<MachineGunEnemy>();
+
+            // Option 1: Use new configuration methods
+            machineGun.ConfigureShooter(1f, 8f, 5f, 10f); // damage, range, rate, speed
+            machineGun.ConfigureMachineGun(5f, 15f, 3f); // rate, inaccuracy, burst duration
+
+            // Option 2: Use backwards compatible method (comment out Option 1 if using this)
+            // machineGun.SetMachineGunEnenmy(5f, 15f);
+
+            enemyComponent.SetEnemyType(EnemyType.MachineGun);
+        }
+        // Configure Sniper Enemies
+        else if (enemy.GetComponent<SniperEnemy>() != null)
+        {
+            var sniper = enemy.GetComponent<SniperEnemy>();
+
+            // Option 1: Use new configuration methods
+            sniper.ConfigureShooter(3f, 12f, 0.33f, 20f); // damage, range, rate, speed
+            sniper.ConfigureSniper(1.5f, 1f, 3f); // aim time, inaccuracy, damage
+
+            // Option 2: Use backwards compatible method (comment out Option 1 if using this)
+            // sniper.SetSniperEnemy(1.5f, 1f);
+
+            enemyComponent.SetEnemyType(EnemyType.Shooter); // or add EnemyType.Sniper to enum
+        }
+        // Configure Exploder Enemies
         else if (enemy.GetComponent<ExploderEnemy>() != null)
         {
             // ExploderEnemy doesn't need weapon setup
             enemyComponent.SetEnemyType(EnemyType.Exploder);
-        }
-
-
-        else if (enemy.GetComponent<MachineGunEnenmy>() != null)
-        {
-            // MachineGunEnenmy setup
-            enemyComponent.weapon = machineGunWeapon; 
-            enemy.GetComponent<MachineGunEnenmy>().SetMachineGunEnenmy(1f, 15f); 
-            enemyComponent.SetEnemyType(EnemyType.MachineGun);
-        }
-
-        else if (enemy.GetComponent<SniperEnemy>() != null)
-        {
-            enemyComponent.weapon = new Weapon("Sniper Rifle", 3, 20); // High damage, fast bullets
-            enemy.GetComponent<SniperEnemy>().SetSniperEnemy(0.33f, 1f, 3f, 1f);
-            enemyComponent.SetEnemyType(EnemyType.Sniper);
         }
         // Add more enemy types here as needed
     }

@@ -99,8 +99,8 @@ GameObject:
   - component: {fileID: 3879177682302672601}
   - component: {fileID: 3606306572298938894}
   - component: {fileID: 7500769749920808276}
-  - component: {fileID: 1566373886257406179}
   - component: {fileID: 2711130235474599142}
+  - component: {fileID: -2922701284519878969}
   m_Layer: 0
   m_Name: MachineGunEnemy
   m_TagString: Enemy
@@ -242,25 +242,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.1
---- !u!114 &1566373886257406179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127931340942347204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65e210820e87bab4bba1fc14c69562f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  speed: 2
-  BulletPrefab: {fileID: 4142294224700888688, guid: 16e4ffabb29efd444ab6086e49e47859, type: 3}
-  firePoint: {fileID: 7338958563176880096}
-  fireRate: 5
-  inaccuracyAngle: 15
-  shootingRange: 8
 --- !u!114 &2711130235474599142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,3 +256,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   speed: 1
+--- !u!114 &-2922701284519878969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127931340942347204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09674c2fa9000a041a2a9a3beccc418f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 1
+  bulletPrefab: {fileID: 4142294224700888688, guid: 16e4ffabb29efd444ab6086e49e47859, type: 3}
+  firePoint: {fileID: 7338958563176880096}
+  fireRate: 1
+  shootingRange: 8
+  bulletSpeed: 10
+  bulletDamage: 1
+  targetTag: Player
+  preferredDistance: 6
+  minimumDistance: 3
+  maxDistance: 10
+  inaccuracyAngle: 15
+  burstDuration: 3
+  burstCooldown: 2
