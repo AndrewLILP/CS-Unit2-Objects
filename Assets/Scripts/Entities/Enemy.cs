@@ -7,7 +7,7 @@ public class Enemy : PlayableObject //: not MonoBehaviour - player and enemy wil
     
 
     private EnemyType enemyType; // enum for different types of enemies
-    protected Transform target; // protected is also not in Inspector
+    [SerializeField] protected Transform target; // protected is also not in Inspector
     // the target that the enemy will move towards (eg the player)
     [SerializeField] protected float speed;
 

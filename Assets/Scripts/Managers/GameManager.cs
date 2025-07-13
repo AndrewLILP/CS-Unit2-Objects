@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Game Entities")]
     [SerializeField] private Player player;
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private Transform[] spawnPoints;
 
     [Header("Game Variables")]
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 
 
     private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
+    private Weapon exploderWeapon = new Weapon("Exploder", 2, 8); 
 
     /// <summary>
     /// Singleton
@@ -152,10 +153,12 @@ public class GameManager : MonoBehaviour
 
     void CreateEnemy()
     {
-        tempEnemy = Instantiate(enemyPrefab);
+        GameObject chosenEnemyPrefab = enemyPrefab[UnityEngine.Random.Range(0, enemyPrefab.Length)];
+        tempEnemy = Instantiate(chosenEnemyPrefab);
         tempEnemy.transform.position = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
-        tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon; // works for me as is - Enemy changed to Melee for a fix
-        tempEnemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2, 0.25f);
+        //tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon; // works for me as is - Enemy changed to Melee for a fix
+        //tempEnemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2, 0.25f);
+        ConfigureEnemy(tempEnemy);
     }
 
     IEnumerator EnemySpawner()
@@ -167,5 +170,25 @@ public class GameManager : MonoBehaviour
             // run things after the wait
             CreateEnemy();
         }
+    }
+
+    private void ConfigureEnemy(GameObject enemy)
+    {
+        Enemy enemyComponent = enemy.GetComponent<Enemy>();
+        if (enemyComponent == null) return;
+
+        // Configure based on what enemy component is attached
+        if (enemy.GetComponent<MeleeEnemy>() != null)
+        {
+            enemyComponent.weapon = meleeWeapon;
+            enemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2f, 0.25f);
+            enemyComponent.SetEnemyType(EnemyType.Melee);
+        }
+        else if (enemy.GetComponent<ExploderEnemy>() != null)
+        {
+            // ExploderEnemy doesn't need weapon setup
+            enemyComponent.SetEnemyType(EnemyType.Exploder);
+        }
+        // Add more enemy types here as needed
     }
 }
