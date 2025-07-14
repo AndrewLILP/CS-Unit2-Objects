@@ -9,6 +9,7 @@ public class HealthPickup : Pickup, IDamagable
         // increase health
         var player = GameManager.GetInstance().GetPlayer();
         player.health.AddHealth(healthToAdd);
+        GameManager.GetInstance().uiManager.UpdateHealth(player.health.GetHealth());
     }
 
     public void GetDamage(float damage)

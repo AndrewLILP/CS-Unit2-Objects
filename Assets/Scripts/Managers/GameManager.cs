@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     public ScoreManager scoreManager;
     public PickupManager pickupManager;
+    public UIManager uiManager; // Added UIManager reference
 
     /// <summary>
     /// Possible fixes
