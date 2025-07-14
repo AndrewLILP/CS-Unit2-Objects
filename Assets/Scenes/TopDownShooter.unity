@@ -436,6 +436,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 324056596}
   m_CullTransparentMesh: 1
+--- !u!1 &531467997
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 531467999}
+  - component: {fileID: 531467998}
+  m_Layer: 0
+  m_Name: PickupManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &531467998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531467997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 951f2855859ad8f47b148f4c36073721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickups:
+  - pickup: {fileID: 255656825535440375, guid: 7c3307422e085e24da1fc9ec04a35cac, type: 3}
+    spawnWeight: 1
+  pickupProbability: 1
+--- !u!4 &531467999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531467997}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.24045, y: 0.09441245, z: -0.0038126146}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &815367206
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +594,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickups:
+  - pickup: {fileID: 255656825535440375, guid: 7c3307422e085e24da1fc9ec04a35cac, type: 3}
+    spawnWeight: 1
   - pickup: {fileID: 0}
     spawnWeight: 0
   pickupProbability: 1
@@ -579,9 +629,6 @@ MonoBehaviour:
   player: {fileID: 1052569923}
   enemyPrefab:
   - {fileID: 5238715167877627248, guid: 087e7f6a0c22fbe4cb7922ca01501a09, type: 3}
-  - {fileID: 7681021609333840104, guid: 76970bd8e1c8f7c4fb67f46a6201b3ec, type: 3}
-  - {fileID: 2448341184461682184, guid: 8d60a69741655b0438b99b6e11fa586c, type: 3}
-  - {fileID: 1127931340942347204, guid: 04607278fa12221409253433ab897057, type: 3}
   spawnPoints:
   - {fileID: 121541910}
   - {fileID: 815367207}
@@ -822,7 +869,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.4716981, g: 0.23881568, b: 0.46442053, a: 0}
+  m_BackGroundColor: {r: 0.27672952, g: 0.11225817, b: 0.27115422, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1127,6 +1174,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4172270604577031299, guid: 7ab090d7bedf294438e120f75dd5ed9d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4172270604577031299, guid: 7ab090d7bedf294438e120f75dd5ed9d, type: 3}
       propertyPath: m_PointLightOuterRadius
       value: 0.7281309
       objectReference: {fileID: 0}
@@ -1201,3 +1252,4 @@ SceneRoots:
   - {fileID: 274447405}
   - {fileID: 1683455242}
   - {fileID: 1745329416}
+  - {fileID: 531467999}

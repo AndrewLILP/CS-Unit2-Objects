@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        
+        UpdateHealth(player.health.GetHealth());
         scoreManager = GameManager.GetInstance().scoreManager;
 
         GameManager.GetInstance().OnGameStart.AddListener(GameStarted);

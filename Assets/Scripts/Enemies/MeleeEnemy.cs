@@ -42,7 +42,7 @@ public class MeleeEnemy : Enemy // : MonoBehaviour via Enemy and PlayableObject
         else
         {
             timer = 0f;
-            target.GetComponent<IDamagable>().GetDamage(weapon.GetDamage());
+            target.gameObject.GetComponent<IDamagable>().GetDamage(weapon.GetDamage());
             Debug.Log(weapon.GetDamage());
         }
     }
