@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Possible fixes
     /// </summary>
-    public UnityEvent OnGameStart;
-    public UnityEvent OnGameOver;
+    public Action OnGameStart; // changed in class10
+    public Action OnGameOver; // changed in class10
 
     private GameObject tempEnemy;
     private bool isEnemySpawning;
@@ -72,15 +72,6 @@ public class GameManager : MonoBehaviour
 
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        isEnemySpawning = true;
-        StartCoroutine(EnemySpawner());
-        StartGame();
-    }
-
-
     // Update is called once per frame
     void Update()
     {
@@ -108,13 +99,17 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         player.OnDeath += StopGame; // += subscribing to the action
         isPlaying = true;
-        OnGameStart?.Invoke();
+        OnGameStart?.Invoke(); // short hand for null check
         StartCoroutine(GameStarter());
     }
 
     IEnumerator GameStarter()
     {
         yield return new WaitForSeconds(2.0f);
+        if (player.health.GetHealth() <= 0)
+        {
+            player.health.AddHealth(100); // Ensure player starts with full health
+        }     
         isEnemySpawning = true;
         StartCoroutine(EnemySpawner());
     }

@@ -11,13 +11,24 @@ public class ScoreManager : MonoBehaviour
 {
     private int seconds;
     private int score;
-
     private int highScore = 0;
 
-
-
     public UnityEvent OnScoreUpdate;
+    public UnityEvent OnHighScoreUpdated;
 
+    private void Start()
+    {
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        OnHighScoreUpdated?.Invoke();
+        GameManager.GetInstance().OnGameStart += OnGameStart;
+    }
+
+    public void OnGameStart()
+    {
+        score = 0; 
+        GameManager.GetInstance().uiManager.UpdateHighScore();
+        
+    }
     public string timer
     {
         get
@@ -25,13 +36,6 @@ public class ScoreManager : MonoBehaviour
             return (Mathf.Round((float)seconds / 60.0f) + "mins and" + seconds % 60 + "seconds");
         }
         private set { }
-    }
-
-    // Start method to load high score from PlayerPrefs
-    private void Start()
-    {
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-
     }
 
     public int GetScore()
@@ -49,6 +53,12 @@ public class ScoreManager : MonoBehaviour
     {
         score++;
         OnScoreUpdate?.Invoke(); // another way to write a null check - avoids null crash
+        if(score > highScore)
+        {
+            SetHighScore();
+            OnHighScoreUpdated?.Invoke();
+        }
+
     }
 
     // Add missing SetHighScore method
@@ -61,6 +71,7 @@ public class ScoreManager : MonoBehaviour
             PlayerPrefs.Save();
             Debug.Log("New High Score: " + highScore);
         }
+        GameManager.GetInstance().uiManager.UpdateHighScore(); // Update UI with new high score
     }
 
     // Reset score for new game
@@ -68,6 +79,15 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0;
         OnScoreUpdate?.Invoke();
+    }
+
+    // Clean up subscriptions when object is disabled
+    private void OnDisable()
+    {
+        if (GameManager.GetInstance() != null)
+        {
+            GameManager.GetInstance().OnGameStart -= OnGameStart;
+        }
     }
 
 }

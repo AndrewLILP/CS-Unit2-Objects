@@ -11,8 +11,10 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text txtHealth;
     [SerializeField] private TMP_Text txtScore;
+    [SerializeField] private TMP_Text txtHighScore;
     [SerializeField] Player player;
-    // Add missing scoreManager field
+    [SerializeField] private GameObject menuCanvas;
+    
     private ScoreManager scoreManager;
 
 
@@ -21,8 +23,8 @@ public class UIManager : MonoBehaviour
         UpdateHealth(player.health.GetHealth());
         scoreManager = GameManager.GetInstance().scoreManager;
 
-        GameManager.GetInstance().OnGameStart.AddListener(GameStarted);
-        GameManager.GetInstance().OnGameOver.AddListener(GameOver);
+        GameManager.GetInstance().OnGameStart += GameStarted;
+        GameManager.GetInstance().OnGameOver += GameOver;
         
         // Subscribe to score updates
         
@@ -67,8 +69,8 @@ public class UIManager : MonoBehaviour
         // Unsubscribe from GameManager events
         if (GameManager.GetInstance() != null)
         {
-            GameManager.GetInstance().OnGameStart.RemoveListener(GameStarted);
-            GameManager.GetInstance().OnGameOver.RemoveListener(GameOver);
+            GameManager.GetInstance().OnGameStart -= GameStarted;
+            GameManager.GetInstance().OnGameOver -= GameOver;
 
         }
 
@@ -76,6 +78,12 @@ public class UIManager : MonoBehaviour
         if (scoreManager != null)
             scoreManager.OnScoreUpdate.RemoveListener(UpdateScore);
     }
+
+    public void UpdateHighScore()
+    {
+        txtHighScore.SetText(scoreManager.GetHighScore().ToString());
+    }
+
 
     public void UpdateHealth(float currentHealth)
     {
