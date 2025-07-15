@@ -59,3 +59,62 @@
 - Key Improvements
     - Camera Shakes
     - Visual effects
+
+- commit: Camera shake and Visual Effects - https://github.com/AndrewLILP/CS-Unit2-Objects/commit/fa4ad28f1dab5d3985ef4f2be3e943bd16aeee2b
+
+- Epic 2: Menu & UI Systems (2h)
+- Story 2.1: Main Menu (1h)
+- Role: UI/UX Designer + Programmer
+- Tasks:
+    - Create main menu scene - yes
+    - Add Start, Instructions, Quit buttons - yes
+    - Implement scene transitions - NO
+    - Create instructions panel/screen - yes
+- Acceptance Criteria: Professional main menu with clear navigation - yes
+
+- Story 2.2: Game Over & High Score (1h)
+- Role: UI/UX Designer + Programmer
+- Tasks:
+    - Design game over screen
+    - Display final score and high score
+    - Add restart and main menu options
+    - Ensure high score persistence works
+- Acceptance Criteria: Game over screen shows scores and allows restart
+
+- Epic 3: Audio & Polish (2.5h)
+- Story 3.1: Sound Implementation (1.5h)
+- Role: Audio Designer + Programmer
+- Tasks:
+    - Find/create basic sound effects (shooting, explosions, damage)
+    - Add background music (simple loop)
+    - Implement AudioManager system
+    - Add volume controls
+- Acceptance Criteria: All major actions have audio feedback
+
+- Story 3.2: Visual Polish (1h)
+- Role: VFX Artist + Programmer
+- Tasks:
+    - Add post-processing effects (basic color grading)
+    - Implement simple particle systems
+    - Add UI animations/transitions
+    - Polish visual consistency
+- Acceptance Criteria: Game has professional visual polish
+
+- Epic 4: Testing & Deployment (1h)
+- Story 4.1: Quality Assurance (0.5h)
+- Role: QA Tester
+- Tasks:
+    - Gameplay testing session
+    - Bug identification and priority list
+    - Performance testing
+    - User experience evaluation
+- Acceptance Criteria: Game is stable and enjoyable
+
+- Story 4.2: Build & Deployment (0.5h)
+- Role: Producer + Programmer
+- Tasks:
+    - Create final build for Unity Play
+    - Update GitHub repository
+    - Document final features
+    - Prepare submission materials
+- Acceptance Criteria: Game successfully deployed to Unity Play
