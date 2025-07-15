@@ -144,7 +144,7 @@ Transform:
   m_GameObject: {fileID: 121541909}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.91, y: -1.48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -752,7 +752,7 @@ Transform:
   m_GameObject: {fileID: 815367206}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.84, y: 0, z: 0}
+  m_LocalPosition: {x: 13.65, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -832,7 +832,7 @@ Transform:
   m_GameObject: {fileID: 1017791605}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.52, y: -9.63, z: 0}
+  m_LocalPosition: {x: 17.52, y: -6.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -943,6 +943,7 @@ MonoBehaviour:
   enemySpawnRate: 1
   currentLevel: 1
   pointsPerLevel: 20
+  spawnPatternSystem: {fileID: 0}
   scoreManager: {fileID: 1038815694}
   pickupManager: {fileID: 1038815693}
   uiManager: {fileID: 866023306}
@@ -1918,7 +1919,7 @@ Transform:
   m_GameObject: {fileID: 1887143839}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.06, y: -9.63, z: 0}
+  m_LocalPosition: {x: -2.18, y: -13.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

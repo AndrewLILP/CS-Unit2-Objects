@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int pointsPerLevel = 20;
     // =================================================================
 
+    // ==================== NEW: SPAWN PATTERN SYSTEM ====================
+    [Header("Spawn Pattern System")]
+    [SerializeField] private SpawnPatternSystem spawnPatternSystem;
+    // ====================================================================
+
     public ScoreManager scoreManager;
     public PickupManager pickupManager;
     public UIManager uiManager; // Added UIManager reference
@@ -73,6 +78,16 @@ public class GameManager : MonoBehaviour
         // Set the singleton instance
         SetSingleton();
 
+        // ==================== NEW: INITIALIZE SPAWN PATTERN SYSTEM ====================
+        if (spawnPatternSystem == null)
+        {
+            spawnPatternSystem = GetComponent<SpawnPatternSystem>();
+            if (spawnPatternSystem == null)
+            {
+                spawnPatternSystem = gameObject.AddComponent<SpawnPatternSystem>();
+            }
+        }
+        // ==============================================================================
     }
     // end of singleton
 
@@ -230,7 +245,14 @@ public class GameManager : MonoBehaviour
     // ==================== MODIFIED: CREATEENEMY METHOD ====================
     void CreateEnemy()
     {
-        // CHANGED: Use level-based enemy selection instead of random
+        // NEW: Check if we should use a spawn pattern instead of single enemy
+        if (spawnPatternSystem != null && spawnPatternSystem.ShouldUsePattern(currentLevel))
+        {
+            spawnPatternSystem.ExecuteRandomPattern(currentLevel);
+            return; // Pattern will handle spawning
+        }
+
+        // Original single enemy spawn logic
         GameObject chosenEnemyPrefab = GetEnemyForCurrentLevel();
         tempEnemy = Instantiate(chosenEnemyPrefab);
         tempEnemy.transform.position = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
@@ -238,6 +260,50 @@ public class GameManager : MonoBehaviour
         ConfigureEnemy(tempEnemy);
     }
     // =======================================================================
+
+    // ==================== NEW: METHODS FOR SPAWN PATTERN SYSTEM ====================
+    public void SpawnSpecificEnemyAtPoint(EnemyType enemyType, int spawnPointIndex)
+    {
+        GameObject enemyPrefab = GetEnemyPrefabByType(enemyType);
+        if (enemyPrefab == null)
+        {
+            Debug.LogError($"No prefab found for enemy type: {enemyType}");
+            return;
+        }
+
+        // Ensure spawn point index is valid
+        if (spawnPointIndex < 0 || spawnPointIndex >= spawnPoints.Length)
+        {
+            spawnPointIndex = UnityEngine.Random.Range(0, spawnPoints.Length);
+            Debug.LogWarning($"Invalid spawn point index, using random: {spawnPointIndex}");
+        }
+
+        GameObject enemy = Instantiate(enemyPrefab);
+        enemy.transform.position = spawnPoints[spawnPointIndex].position;
+        ConfigureEnemy(enemy);
+
+        Debug.Log($"Spawned {enemyType} at spawn point {spawnPointIndex}");
+    }
+
+    private GameObject GetEnemyPrefabByType(EnemyType enemyType)
+    {
+        // This assumes your enemyPrefab array is ordered as:
+        // [0] = Melee, [1] = Exploder, [2] = Shooter, [3] = MachineGun
+        switch (enemyType)
+        {
+            case EnemyType.Melee:
+                return enemyPrefab.Length > 0 ? enemyPrefab[0] : null;
+            case EnemyType.Exploder:
+                return enemyPrefab.Length > 1 ? enemyPrefab[1] : null;
+            case EnemyType.Shooter:
+                return enemyPrefab.Length > 2 ? enemyPrefab[2] : null;
+            case EnemyType.MachineGun:
+                return enemyPrefab.Length > 3 ? enemyPrefab[3] : null;
+            default:
+                return enemyPrefab.Length > 0 ? enemyPrefab[0] : null;
+        }
+    }
+    // ==============================================================================
 
     IEnumerator EnemySpawner()
     {
@@ -260,7 +326,18 @@ public class GameManager : MonoBehaviour
         if (enemy.GetComponent<MeleeEnemy>() != null)
         {
             enemyComponent.weapon = meleeWeapon;
-            enemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2f, 0.25f);
+            var meleeEnemy = enemy.GetComponent<MeleeEnemy>();
+
+            // ENHANCED: Use new configuration method
+            if (currentLevel >= 3)
+            {
+                meleeEnemy.ConfigureMeleeEnemy(2f, 0.25f, 3f, 2.5f); // Enhanced movement
+            }
+            else
+            {
+                meleeEnemy.ConfigureMeleeEnemy(2f, 0.25f, 1f, 1.5f); // Basic movement
+            }
+
             enemyComponent.SetEnemyType(EnemyType.Melee);
         }
         // MODIFIED: Configure Machine Gun Enemies with level-based difficulty
@@ -289,20 +366,34 @@ public class GameManager : MonoBehaviour
         else if (enemy.GetComponent<SniperEnemy>() != null)
         {
             var sniper = enemy.GetComponent<SniperEnemy>();
-            sniper.ConfigureShooter(3f, 12f, 0.33f, 20f); // damage, range, rate, speed
-            sniper.ConfigureSniper(1.5f, 1f, 3f); // aim time, inaccuracy, damage
+
+            // ENHANCED: Use advanced configuration
+            if (currentLevel >= 5)
+            {
+                sniper.ConfigureSniperAdvanced(1.5f, 1f, 3f, 2); // Repositions after 2 shots
+            }
+            else
+            {
+                sniper.ConfigureSniperAdvanced(1.8f, 2f, 2f, 4); // Slower, less accurate, repositions less
+            }
+
             enemyComponent.SetEnemyType(EnemyType.Shooter);
         }
         // Configure Exploder Enemies
         else if (enemy.GetComponent<ExploderEnemy>() != null)
         {
-            // MODIFIED: Reduce exploder damage for level 2 introduction
+            var exploder = enemy.GetComponent<ExploderEnemy>();
+
+            // ENHANCED: Level-based configuration
             if (currentLevel == 2)
             {
-                // Slightly reduced damage for first encounter
-                // Note: You may need to add a Configure method to ExploderEnemy
-                Debug.Log("Spawned Exploder for Level 2");
+                exploder.ConfigureExploder(2f, 1.5f, 1.2f); // Reduced damage and longer fuse for introduction
             }
+            else
+            {
+                exploder.ConfigureExploder(2.5f, 2f, 1f); // Full power
+            }
+
             enemyComponent.SetEnemyType(EnemyType.Exploder);
         }
     }
