@@ -20,6 +20,12 @@ public class GameManager : MonoBehaviour
     [Header("Game Variables")]
     [SerializeField] private float enemySpawnRate;
 
+    // ==================== NEW: DIFFICULTY SYSTEM ====================
+    [Header("Difficulty System")]
+    [SerializeField] private int currentLevel = 1;
+    [SerializeField] private int pointsPerLevel = 20;
+    // =================================================================
+
     public ScoreManager scoreManager;
     public PickupManager pickupManager;
     public UIManager uiManager; // Added UIManager reference
@@ -37,7 +43,7 @@ public class GameManager : MonoBehaviour
 
 
     private Weapon meleeWeapon = new Weapon("Melee", 1, 0);
-    private Weapon exploderWeapon = new Weapon("Exploder", 2, 8); 
+    private Weapon exploderWeapon = new Weapon("Exploder", 2, 8);
     private Weapon machineGunWeapon = new Weapon("Machine Gun", 1, 10);
 
     /// <summary>
@@ -79,9 +85,9 @@ public class GameManager : MonoBehaviour
         {
             CreateEnemy();
         }
-        
-            
-        
+
+
+
     }
 
     public Player GetPlayer()
@@ -99,6 +105,12 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         player.OnDeath += StopGame; // += subscribing to the action
         isPlaying = true;
+
+        // ==================== NEW: RESET DIFFICULTY ON GAME START ====================
+        currentLevel = 1;
+        enemySpawnRate = GetSpawnRateForLevel(); // Set initial spawn rate
+                                                 // ==============================================================================
+
         OnGameStart?.Invoke(); // short hand for null check
         StartCoroutine(GameStarter());
     }
@@ -109,7 +121,7 @@ public class GameManager : MonoBehaviour
         if (player.health.GetHealth() <= 0)
         {
             player.health.AddHealth(100); // Ensure player starts with full health
-        }     
+        }
         isEnemySpawning = true;
         StartCoroutine(EnemySpawner());
     }
@@ -140,22 +152,92 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
     public void NotifyDeath(Enemy enemy)
     {
         pickupManager.SpawnPickup(enemy.transform.position);
     }
 
+    // ==================== NEW: DIFFICULTY MANAGEMENT METHODS ====================
+    public void UpdateDifficulty()
+    {
+        int newLevel = (scoreManager.GetScore() / pointsPerLevel) + 1;
+        if (newLevel > currentLevel)
+        {
+            currentLevel = newLevel;
+            Debug.Log($"Level Up! Now on Level {currentLevel}");
+            // Update spawn rate for new level
+            enemySpawnRate = GetSpawnRateForLevel();
+        }
+    }
+
+    private float GetSpawnRateForLevel()
+    {
+        switch (currentLevel)
+        {
+            case 1: return 0.5f;  // Easy introduction
+            case 2: return 0.7f;  // Slight increase
+            case 3: return 1.0f;  // Moderate
+            case 4: return 1.2f;  // Getting tough
+            default:
+                // Progressive increase but capped at 2.0 to prevent chaos
+                return Mathf.Min(2.0f, 1.2f + (currentLevel - 4) * 0.1f);
+        }
+    }
+
+    private float[] GetEnemyWeights()
+    {
+        switch (currentLevel)
+        {
+            case 1:
+                return new float[] { 1f, 0f, 0f, 0f }; // Melee only
+            case 2:
+                return new float[] { 0.6f, 0.4f, 0f, 0f }; // Melee + Exploder
+            case 3:
+                return new float[] { 0.4f, 0.3f, 0.3f, 0f }; // + Shooter
+            case 4:
+                return new float[] { 0.3f, 0.2f, 0.3f, 0.2f }; // + Machine Gun (nerfed)
+            default:
+                return new float[] { 0.25f, 0.25f, 0.25f, 0.25f }; // Balanced chaos
+        }
+    }
+
+    private GameObject GetEnemyForCurrentLevel()
+    {
+        float[] weights = GetEnemyWeights();
+        float totalWeight = 0f;
+
+        // Calculate total weight for available enemies
+        for (int i = 0; i < weights.Length && i < enemyPrefab.Length; i++)
+            totalWeight += weights[i];
+
+        if (totalWeight <= 0f) return enemyPrefab[0]; // Safety fallback
+
+        float randomValue = UnityEngine.Random.Range(0f, totalWeight);
+        float currentWeight = 0f;
+
+        // Select enemy based on weighted probability
+        for (int i = 0; i < weights.Length && i < enemyPrefab.Length; i++)
+        {
+            currentWeight += weights[i];
+            if (randomValue <= currentWeight)
+                return enemyPrefab[i];
+        }
+
+        return enemyPrefab[0]; // Fallback to first enemy
+    }
+    // ============================================================================
+
+    // ==================== MODIFIED: CREATEENEMY METHOD ====================
     void CreateEnemy()
     {
-        GameObject chosenEnemyPrefab = enemyPrefab[UnityEngine.Random.Range(0, enemyPrefab.Length)];
+        // CHANGED: Use level-based enemy selection instead of random
+        GameObject chosenEnemyPrefab = GetEnemyForCurrentLevel();
         tempEnemy = Instantiate(chosenEnemyPrefab);
         tempEnemy.transform.position = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)].position;
-        //tempEnemy.GetComponent<Enemy>().weapon = meleeWeapon; // works for me as is - Enemy changed to Melee for a fix
-        //tempEnemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2, 0.25f);
+
         ConfigureEnemy(tempEnemy);
     }
+    // =======================================================================
 
     IEnumerator EnemySpawner()
     {
@@ -167,6 +249,8 @@ public class GameManager : MonoBehaviour
             CreateEnemy();
         }
     }
+
+    // ==================== MODIFIED: CONFIGURE ENEMY METHOD ====================
     private void ConfigureEnemy(GameObject enemy)
     {
         Enemy enemyComponent = enemy.GetComponent<Enemy>();
@@ -179,17 +263,25 @@ public class GameManager : MonoBehaviour
             enemy.GetComponent<MeleeEnemy>().SetMeleeEnemy(2f, 0.25f);
             enemyComponent.SetEnemyType(EnemyType.Melee);
         }
-        // Configure Machine Gun Enemies
-        else if (enemy.GetComponent<MachineGunEnemy>() != null) // Fixed class name
+        // MODIFIED: Configure Machine Gun Enemies with level-based difficulty
+        else if (enemy.GetComponent<MachineGunEnemy>() != null)
         {
             var machineGun = enemy.GetComponent<MachineGunEnemy>();
 
-            // Option 1: Use new configuration methods
-            machineGun.ConfigureShooter(1f, 8f, 5f, 10f); // damage, range, rate, speed
-            machineGun.ConfigureMachineGun(5f, 15f, 3f); // rate, inaccuracy, burst duration
-
-            // Option 2: Use backwards compatible method (comment out Option 1 if using this)
-            // machineGun.SetMachineGunEnenmy(5f, 15f);
+            if (currentLevel == 4) // NERFED VERSION for level 4 introduction
+            {
+                // Reduced power for first encounter
+                machineGun.ConfigureShooter(1f, 6f, 2f, 10f); // damage, range, rate, speed
+                machineGun.ConfigureMachineGun(2f, 25f, 2f); // rate, inaccuracy, burst duration
+                Debug.Log("Spawned NERFED Machine Gun for Level 4");
+            }
+            else if (currentLevel >= 5) // FULL POWER for level 5+
+            {
+                // Original challenging settings
+                machineGun.ConfigureShooter(1f, 8f, 5f, 10f);
+                machineGun.ConfigureMachineGun(5f, 15f, 3f);
+                Debug.Log("Spawned FULL POWER Machine Gun for Level 5+");
+            }
 
             enemyComponent.SetEnemyType(EnemyType.MachineGun);
         }
@@ -197,22 +289,22 @@ public class GameManager : MonoBehaviour
         else if (enemy.GetComponent<SniperEnemy>() != null)
         {
             var sniper = enemy.GetComponent<SniperEnemy>();
-
-            // Option 1: Use new configuration methods
             sniper.ConfigureShooter(3f, 12f, 0.33f, 20f); // damage, range, rate, speed
             sniper.ConfigureSniper(1.5f, 1f, 3f); // aim time, inaccuracy, damage
-
-            // Option 2: Use backwards compatible method (comment out Option 1 if using this)
-            // sniper.SetSniperEnemy(1.5f, 1f);
-
-            enemyComponent.SetEnemyType(EnemyType.Shooter); // or add EnemyType.Sniper to enum
+            enemyComponent.SetEnemyType(EnemyType.Shooter);
         }
         // Configure Exploder Enemies
         else if (enemy.GetComponent<ExploderEnemy>() != null)
         {
-            // ExploderEnemy doesn't need weapon setup
+            // MODIFIED: Reduce exploder damage for level 2 introduction
+            if (currentLevel == 2)
+            {
+                // Slightly reduced damage for first encounter
+                // Note: You may need to add a Configure method to ExploderEnemy
+                Debug.Log("Spawned Exploder for Level 2");
+            }
             enemyComponent.SetEnemyType(EnemyType.Exploder);
         }
-        // Add more enemy types here as needed
     }
+    // ==========================================================================
 }

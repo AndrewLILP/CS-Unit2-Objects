@@ -25,9 +25,9 @@ public class ScoreManager : MonoBehaviour
 
     public void OnGameStart()
     {
-        score = 0; 
+        score = 0;
         GameManager.GetInstance().uiManager.UpdateHighScore();
-        
+
     }
     public string timer
     {
@@ -48,18 +48,23 @@ public class ScoreManager : MonoBehaviour
         return highScore;
     }
 
-
+    // ==================== MODIFIED: INCREMENT SCORE METHOD ====================
     public void IncrementScore()
     {
         score++;
         OnScoreUpdate?.Invoke(); // another way to write a null check - avoids null crash
-        if(score > highScore)
+
+        // NEW: Update difficulty system when score changes
+        GameManager.GetInstance().UpdateDifficulty();
+
+        if (score > highScore)
         {
             SetHighScore();
             OnHighScoreUpdated?.Invoke();
         }
 
     }
+    // ==========================================================================
 
     // Add missing SetHighScore method
     public void SetHighScore()
