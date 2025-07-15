@@ -941,7 +941,7 @@ MonoBehaviour:
   - {fileID: 1887143840}
   - {fileID: 1017791606}
   enemySpawnRate: 1
-  currentLevel: 1
+  currentLevel: 50
   pointsPerLevel: 20
   spawnPatternSystem: {fileID: 0}
   scoreManager: {fileID: 1038815694}
@@ -1464,6 +1464,7 @@ GameObject:
   - component: {fileID: 1745329415}
   - component: {fileID: 1745329414}
   - component: {fileID: 1745329413}
+  - component: {fileID: 1745329417}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -1589,6 +1590,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1745329417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745329412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2b32ff32c4b8441a4f6d460f452a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxShakeIntensity: 1
+  maxShakeDuration: 0.5
 --- !u!1 &1746917112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1925,6 +1940,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2129215272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1988016882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1988016883}
+  - component: {fileID: 1988016884}
+  m_Layer: 0
+  m_Name: EffectsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1988016883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988016882}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.67444676, y: 3.219882, z: -0.18907033}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1988016884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988016882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de41d78993c15fb45be10dc333d5fd17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzleFlashPrefab: {fileID: 0}
+  bulletImpactPrefab: {fileID: 0}
+  enemyDeathPrefab: {fileID: 0}
+  explosionPrefab: {fileID: 0}
+  bloodHitPrefab: {fileID: 0}
+  sparkHitPrefab: {fileID: 0}
+  damageOverlay: {fileID: 0}
+  damageFlashDuration: 1
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+  maxActiveParticles: 20
+  effectLifetime: 3
 --- !u!1001 &2007484497
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2055,3 +2125,4 @@ SceneRoots:
   - {fileID: 1745329416}
   - {fileID: 531467999}
   - {fileID: 205273193}
+  - {fileID: 1988016883}

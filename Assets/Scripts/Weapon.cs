@@ -35,6 +35,17 @@ public class Weapon //: NOT MonoBehaviour
         // For example, you could use Input.GetButtonDown("Fire1") to check if the player is shooting
         // and then call this method to shoot the weapon.
         Debug.Log("Shooting weapon: " + name + " with damage: " + damage);
+
+        // ==================== NEW: MUZZLE FLASH EFFECT ====================
+        // Play muzzle flash effect at fire point
+        if (_firePoint != null)
+        {
+            // Calculate rotation for muzzle flash (align with weapon direction)
+            float rotation = _firePoint.rotation.eulerAngles.z;
+            EffectsManager.PlayMuzzleFlash(_firePoint.position, rotation);
+        }
+        // ===================================================================
+
         Bullet tempBullet = GameObject.Instantiate(_bullet, _firePoint.position, _firePoint.rotation); // instantiate the bullet prefab
         tempBullet.SetBullet(damage, _targetTag, bulletSpeed); // set the bullet's damage and target tag
 

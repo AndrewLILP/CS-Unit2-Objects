@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
         damage = _damage;
         targetTag = _targetTag;
         speed = _speed;
-    }  
+    }
 
     private void Update()
     {
@@ -24,15 +24,15 @@ public class Bullet : MonoBehaviour
 
         // OnCollisionEnter2D(Collision2D collision); could be used - notice Collider2D and Collision2D
         Debug.Log(other.gameObject.name);
-        
+
         if (!other.gameObject.CompareTag(targetTag)) // if not the tag we asked for, do nothing - !other.gameObject - casts up to game object
         {
             return;
         }
 
         //if (other.gameObject.CompareTag(targetTag)) - alternate {} not needed because it is 1 line
-          //  return; 
-        
+        //  return; 
+
 
         IDamagable damageable = other.GetComponent<IDamagable>(); // go up to get other
         Damage(damageable);
@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour
 
             // Add score - will use game manager to do this
             GameManager.GetInstance().scoreManager.IncrementScore();
-            
+
             Destroy(gameObject); // destroy the bullet
 
         } // else {do nothing / something when null

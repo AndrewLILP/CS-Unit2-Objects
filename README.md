@@ -47,3 +47,15 @@
     - Early levels: Learn individual enemy types
     - Mid levels: Simple tactical decisions (which enemy first?)
     - Late levels: Complex positioning and prioritization challenges
+    
+- Story 1.3: Player Feedback Systems (2h)
+- Role: Programmer + VFX Artist
+- Tasks:
+    - Add damage feedback (screen shake, hit effects)
+    - Implement bullet impact particles
+    - Add enemy death effects
+    - Create muzzle flash particles for weapons
+    - Acceptance Criteria: Clear visual feedback for all game actions
+- Key Improvements
+    - Camera Shakes
+    - Visual effects

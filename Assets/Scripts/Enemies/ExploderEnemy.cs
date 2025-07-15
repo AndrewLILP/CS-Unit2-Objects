@@ -65,6 +65,12 @@ public class ExploderEnemy : Enemy
         // Start visual feedback
         StartBlinking();
 
+        // ==================== NEW: FUSE LIGHTING EFFECTS ====================
+        // Play a small warning effect when fuse is lit
+        EffectsManager.PlayHitEffect(transform.position, false);
+        CameraShake.ShakeLight(); // Light shake to warn player
+                                  // =====================================================================
+
         Debug.Log("Exploder fuse lit! Exploding in " + fuseTime + " seconds!");
     }
 
@@ -99,6 +105,14 @@ public class ExploderEnemy : Enemy
     private void Explode()
     {
         Debug.Log("BOOM! Exploder detonated!");
+
+        // ==================== NEW: EXPLOSION EFFECTS ====================
+        // Play dramatic explosion effect
+        EffectsManager.PlayExplosion(transform.position);
+
+        // Heavy screen shake for explosion
+        CameraShake.ShakeExplosion();
+        // =================================================================
 
         // Damage player if in range
         if (target != null)
@@ -136,6 +150,12 @@ public class ExploderEnemy : Enemy
             if (otherExploder != null && otherExploder != this && !otherExploder.fuseIsLit)
             {
                 Debug.Log("Chain reaction triggered!");
+
+                // ==================== NEW: CHAIN REACTION EFFECTS ====================
+                // Play chain reaction visual effect
+                EffectsManager.PlayHitEffect(otherExploder.transform.position, false);
+                // ======================================================================
+
                 otherExploder.LightFuse();
             }
         }
@@ -149,6 +169,17 @@ public class ExploderEnemy : Enemy
 
     public override void GetDamage(float damage)
     {
+        // ==================== NEW: DAMAGE EFFECTS ====================
+        // Enhanced hit effect for exploders
+        EffectsManager.PlayHitEffect(transform.position, false);
+
+        // If damaged while fuse is lit, add extra dramatic effect
+        if (fuseIsLit)
+        {
+            CameraShake.ShakeMedium();
+        }
+        // ==============================================================
+
         base.GetDamage(damage);
 
         // If damaged while fuse is lit, explode immediately (panic mode)
@@ -166,6 +197,17 @@ public class ExploderEnemy : Enemy
         {
             CancelInvoke(nameof(BlinkEffect));
         }
+
+        // ==================== NEW: ENHANCED DEATH EFFECTS ====================
+        // If exploder dies without exploding, play different effect
+        if (!fuseIsLit)
+        {
+            // Exploder was killed before it could detonate
+            EffectsManager.PlayEnemyDeath(transform.position);
+            Debug.Log("Exploder neutralized before detonation!");
+        }
+        // Don't call explosion here - it's handled in Explode() method
+        // ======================================================================
 
         base.Die();
     }

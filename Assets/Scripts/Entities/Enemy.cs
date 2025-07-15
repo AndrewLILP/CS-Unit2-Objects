@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Enemy : PlayableObject //: not MonoBehaviour - player and enemy will come from character class (abstract class)
 {
-    
+
     private string enemyName;
-    
+
 
     private EnemyType enemyType; // enum for different types of enemies
     [SerializeField] protected Transform target; // protected is also not in Inspector
@@ -49,7 +49,7 @@ public class Enemy : PlayableObject //: not MonoBehaviour - player and enemy wil
         direction.y -= transform.position.y;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0,0,angle);
+        transform.rotation = Quaternion.Euler(0, 0, angle);
         transform.Translate(Vector2.right * speed * Time.deltaTime);
 
     }
@@ -73,6 +73,33 @@ public class Enemy : PlayableObject //: not MonoBehaviour - player and enemy wil
     public override void Die()
     {
         Debug.Log("Enemy died: ");
+
+        // ==================== NEW: ENEMY DEATH EFFECTS ====================
+        // Play death effect at enemy position
+        EffectsManager.PlayEnemyDeath(transform.position);
+
+        // Different effects based on enemy type
+        switch (enemyType)
+        {
+            case EnemyType.Exploder:
+                // Exploder death is handled in ExploderEnemy.cs
+                break;
+            case EnemyType.MachineGun:
+                // Bigger death effect for machine gun enemies
+                CameraShake.ShakeMedium();
+                break;
+            case EnemyType.Shooter:
+                // Standard death effect
+                CameraShake.ShakeLight();
+                break;
+            case EnemyType.Melee:
+            default:
+                // Light effect for melee enemies
+                CameraShake.ShakeLight();
+                break;
+        }
+        // ===================================================================
+
         GameManager.GetInstance().NotifyDeath(this);
         Destroy(gameObject);
         //base.Die(); base doesnt work any more
@@ -87,6 +114,12 @@ public class Enemy : PlayableObject //: not MonoBehaviour - player and enemy wil
     public override void GetDamage(float damage)
     {
         //throw new System.NotImplementedException();
+
+        // ==================== NEW: HIT EFFECTS ====================
+        // Play hit effect when enemy takes damage (not player hit effect)
+        EffectsManager.PlayHitEffect(transform.position, false); // false = not player
+                                                                 // ===========================================================
+
         health.DeductHealth(damage); // check health = 0 when damage is done - add to Health.cs
         if (health.GetHealth() <= 0)
         {
