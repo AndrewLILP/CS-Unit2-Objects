@@ -73,6 +73,17 @@
 - Acceptance Criteria: Professional main menu with clear navigation - yes
 - commit: Add Main Menu - https://github.com/AndrewLILP/CS-Unit2-Objects/commit/9ba0f7ada858552a53bf070172126fd72176336f
 
+# Updated Sprint Overview:
+- Current Status:
+- ✅ Epic 1: Core Game Enhancement (4.5h) - In Progress
+- ✅ Epic 2: Menu & UI Systems (2h) - Story 2.1 paused for debugging
+- 🆕 Epic 3: Power-up Systems (1.5h) - New feature request
+    - Strategic Gameplay: Save nukes for tough situations (score = 3, random, press n key)
+    - Satisfying Feedback: Screen-wide explosion effects
+    - UI Integration: Clean nuke counter in top-left
+    - Balanced Design: Rare enough to be special, useful when needed
+    - commit: Add Nuke - https://github.com/AndrewLILP/CS-Unit2-Objects/commit/b8cbd8a03e1aa40af7675afe26e881b934287f89
+
 - Story 2.2: Game Over & High Score (1h)
 - Role: UI/UX Designer + Programmer
 - Tasks:

@@ -10,16 +10,27 @@ public class Enemy : PlayableObject //: not MonoBehaviour - player and enemy wil
     [SerializeField] protected Transform target; // protected is also not in Inspector
     // the target that the enemy will move towards (eg the player)
     [SerializeField] protected float speed;
-
-
-    // lots of enemies can be created with different values for Health
-    // weappons can be created with different values for Health damage
-
     protected virtual void Start()
     {
-        target = GameObject.FindWithTag("Player").transform;
+        // ==================== ADDED FOR Story 2.2: Game Over & High Score ====================
+        // Find player with null safety to prevent Game Over interruption
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        if (playerObject != null)
+        {
+            target = playerObject.transform;
+        }
+        else
+        {
+            Debug.LogWarning($"Enemy {gameObject.name}: No Player found with 'Player' tag. Enemy will be destroyed.");
+            // If no player exists (like during Game Over), destroy this enemy
+            Destroy(gameObject);
+            return;
+        }
+        // ======================================================================================
 
-        health = new Health(10, 0.1f, 10f); // this is public so we can decrease health if it gets hit in gameplay
+        // ==================== EXISTING CODE (Pre-Story 2.2) ====================
+        health = new Health(10, 0.1f, 10f);
+        // ====================================================================
     }
 
     protected virtual void Update()
