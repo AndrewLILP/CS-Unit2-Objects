@@ -1,22 +1,21 @@
+// UIManager.cs - COMPLETE VERSION WITH ALL METHODS
+// Replace your entire UIManager.cs with this complete version
+
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using TMPro;
-
-// UIManager.cs
-
-
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text txtHealth;
     [SerializeField] private TMP_Text txtScore;
     [SerializeField] private TMP_Text txtHighScore;
+    [SerializeField] private TMP_Text txtNukeCount; // NEW: Add this field and assign in inspector
     [SerializeField] Player player;
     [SerializeField] private GameObject menuCanvas;
-    
-    private ScoreManager scoreManager;
 
+    private ScoreManager scoreManager;
 
     private void Start()
     {
@@ -25,17 +24,22 @@ public class UIManager : MonoBehaviour
 
         GameManager.GetInstance().OnGameStart += GameStarted;
         GameManager.GetInstance().OnGameOver += GameOver;
-        
+
         // Subscribe to score updates
-        
         if (scoreManager != null)
         {
             scoreManager.OnScoreUpdate.AddListener(UpdateScore);
         }
 
+        // NEW: Subscribe to nuke events
+        if (NukeManager.GetInstance() != null)
+        {
+            NukeManager.GetInstance().OnNukeCountChanged += UpdateNukeCount;
+        }
+
+        // Initialize nuke UI
+        UpdateNukeCount(0);
     }
-
-
 
     public void GameStarted()
     {
@@ -53,11 +57,10 @@ public class UIManager : MonoBehaviour
         Debug.Log("Subscribed to health updates");
     }
 
-    
     private void OnDisable()
     {
         //unsubscribe to action
-        if (player != null) 
+        if (player != null)
             player.OnHealthUpdate -= UpdateHealth;
 
         if (scoreManager != null)
@@ -65,13 +68,17 @@ public class UIManager : MonoBehaviour
             scoreManager.OnScoreUpdate.RemoveListener(UpdateScore);
         }
 
+        // NEW: Unsubscribe from nuke events
+        if (NukeManager.GetInstance() != null)
+        {
+            NukeManager.GetInstance().OnNukeCountChanged -= UpdateNukeCount;
+        }
 
         // Unsubscribe from GameManager events
         if (GameManager.GetInstance() != null)
         {
             GameManager.GetInstance().OnGameStart -= GameStarted;
             GameManager.GetInstance().OnGameOver -= GameOver;
-
         }
 
         // Unsubscribe from score updates
@@ -84,7 +91,6 @@ public class UIManager : MonoBehaviour
         txtHighScore.SetText(scoreManager.GetHighScore().ToString());
     }
 
-
     public void UpdateHealth(float currentHealth)
     {
         Debug.Log("UpdateHealth called with: " + currentHealth);
@@ -94,6 +100,15 @@ public class UIManager : MonoBehaviour
     public void UpdateScore()
     {
         txtScore.SetText(GameManager.GetInstance().scoreManager.GetScore().ToString());
+    }
+
+    // NEW: Update nuke count display
+    private void UpdateNukeCount(int nukeCount)
+    {
+        if (txtNukeCount != null)
+        {
+            txtNukeCount.SetText($"Nukes: {nukeCount}");
+        }
     }
 
     public void GameOver()

@@ -71,6 +71,7 @@
     - Implement scene transitions - NO
     - Create instructions panel/screen - yes
 - Acceptance Criteria: Professional main menu with clear navigation - yes
+- commit: Add Main Menu - https://github.com/AndrewLILP/CS-Unit2-Objects/commit/9ba0f7ada858552a53bf070172126fd72176336f
 
 - Story 2.2: Game Over & High Score (1h)
 - Role: UI/UX Designer + Programmer

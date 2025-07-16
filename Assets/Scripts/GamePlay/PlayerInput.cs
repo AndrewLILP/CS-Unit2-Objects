@@ -1,42 +1,59 @@
+// PlayerInput.cs - SIMPLE MODIFICATIONS
+// In your existing PlayerInput.cs, ADD these sections marked NEW
+
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    // ========== EXISTING CODE - DON'T CHANGE ==========
     private Player player;
     private float horizontal, vertical;
     private Vector2 lookTarget;
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GetComponent<Player>();
     }
 
-    // Update is called once per frame
+    // ========== MODIFY UPDATE METHOD ==========
     void Update()
     {
+        // EXISTING - DON'T CHANGE
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
         lookTarget = Input.mousePosition;
 
-        if (Input.GetMouseButtonDown(0)) // GetMouseButton(0) is rapid fire - 0 is the left mouse button
+        // EXISTING - DON'T CHANGE
+        if (Input.GetMouseButtonDown(0))
         {
-            // Call the Shoot method on the player when the left mouse button is pressed
-            // This will shoot the weapon and instantiate a bullet
-            // The player class has a Shoot method that handles this logic
-            // The player class also has a weapon property that is used to shoot the bullet
-            // The player class also has a firePoint property that is used to instantiate the bullet
-            
-                player.Shoot();
+            player.Shoot();
         }
+
+        // ========== NEW: Add right-click for nuke ==========
+        if (Input.GetMouseButtonDown(1))
+        {
+            NukeManager nukeManager = NukeManager.GetInstance();
+            if (nukeManager != null && nukeManager.CanUseNuke())
+            {
+                nukeManager.UseNuke();
+            }
+            else
+            {
+                Debug.Log("No nukes available!");
+            }
+        }
+
+        // DEBUG: Add nuke for testing (remove in production)
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            NukeManager.GetInstance()?.AddNuke();
+        }
+        // =================================================
     }
 
+    // ========== EXISTING CODE - DON'T CHANGE ==========
     private void FixedUpdate()
     {
-        
         player.Move(new Vector2(horizontal, vertical), lookTarget);
-        
     }
 }
